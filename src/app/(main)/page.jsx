@@ -1,7 +1,11 @@
-export default function Home() {
+import AvailableCarsSection from "@/components/Pages/HomePage/AvailableCarsSection";
+import HeroSection from "@/components/Pages/HomePage/HeroSection";
+
+export default function HomePage() {
   return (
-    <div>
-      <h1>Hello World!</h1>
-    </div>
+    <>
+      <HeroSection />
+      <AvailableCarsSection />
+    </>
   );
 }
