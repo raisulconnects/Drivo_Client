@@ -29,18 +29,6 @@ export default async function CarDetailsPage({ params }) {
   return (
     <section className="min-h-screen bg-[#0b0b0b] py-16 text-white md:py-24">
       <div className="mx-auto max-w-7xl px-5">
-        {/* Breadcrumb */}
-        <div className="mb-8 text-sm text-gray-400">
-          <Link href="/" className="hover:text-white">
-            Home
-          </Link>{" "}
-          /{" "}
-          <Link href="/explore" className="hover:text-white">
-            Explore Cars
-          </Link>{" "}
-          / <span className="text-white">{car.name}</span>
-        </div>
-
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#111111]">
