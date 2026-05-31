@@ -1,6 +1,46 @@
+"use client";
+
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
+  const router = useRouter();
+
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      await authClient.signIn.email({
+        email: user.email,
+        password: user.password,
+        callbackURL: "/",
+      });
+
+      toast.success("Login successful!");
+      router.push("/");
+    } catch (error) {
+      toast.error(error?.message || "Login failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="flex min-h-screen items-center justify-center bg-[#0b0b0b] px-5 py-16 text-white">
       <div className="w-full max-w-md rounded-3xl border border-white/10 bg-[#111111] p-8 shadow-2xl">
@@ -15,14 +55,18 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleLogin}>
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-300">
               Email
             </label>
             <input
               type="email"
+              name="email"
+              value={user.email}
+              onChange={handleChange}
               placeholder="Enter your email"
+              required
               className="w-full rounded-xl border border-white/10 bg-[#0b0b0b] px-4 py-3 text-sm text-white outline-none transition placeholder:text-gray-500 focus:border-lime-400"
             />
           </div>
@@ -33,16 +77,21 @@ export default function LoginPage() {
             </label>
             <input
               type="password"
+              name="password"
+              value={user.password}
+              onChange={handleChange}
               placeholder="Enter your password"
+              required
               className="w-full rounded-xl border border-white/10 bg-[#0b0b0b] px-4 py-3 text-sm text-white outline-none transition placeholder:text-gray-500 focus:border-lime-400"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-lime-400 px-5 py-3 text-sm font-semibold text-black transition hover:bg-lime-300"
+            disabled={loading}
+            className="w-full rounded-xl bg-lime-400 px-5 py-3 text-sm font-semibold text-black transition hover:bg-lime-300 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
