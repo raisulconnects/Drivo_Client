@@ -160,6 +160,21 @@ export default function ExploreCarsPage() {
             </select>
           </div>
         </div>
+
+        {filteredCars.length > 0 ? (
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {filteredCars.map((car) => (
+              <CarCards key={car.id} car={car} />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-white/10 bg-[#111111] p-10 text-center">
+            <h3 className="text-2xl font-semibold text-white">No cars found</h3>
+            <p className="mt-3 text-sm text-gray-400">
+              Try changing your search text or selecting a different car type.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
