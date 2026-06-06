@@ -45,23 +45,24 @@ export default function RegisterPage() {
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      await authClient.signUp.email({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        image: user.photoURL,
-        callbackURL: "/",
-      });
+    const { data, error } = await authClient.signUp.email({
+      email: user.email,
+      password: user.password,
+      name: user.name,
+      image: user.photoURL,
+    });
 
+    if (error) {
+      toast.error(error.message || "Registration failed.");
+      setLoading(false);
+      return;
+    }
+
+    if (data) {
       toast.success("Registration successful!");
       router.push("/");
-    } catch (error) {
-      toast.error(error?.message || "Registration failed.");
-    } finally {
-      setLoading(false);
     }
   };
 

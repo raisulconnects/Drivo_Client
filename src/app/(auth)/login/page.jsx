@@ -22,22 +22,22 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    try {
-      setLoading(true);
+    const { data, error } = await authClient.signIn.email({
+      email: user.email,
+      password: user.password,
+    });
 
-      await authClient.signIn.email({
-        email: user.email,
-        password: user.password,
-        callbackURL: "/",
-      });
+    if (error) {
+      toast.error(error.message || "Invalid email or password.");
+      setLoading(false);
+      return;
+    }
 
+    if (data) {
       toast.success("Login successful!");
       router.push("/");
-    } catch (error) {
-      toast.error(error?.message || "Login failed.");
-    } finally {
-      setLoading(false);
     }
   };
 
