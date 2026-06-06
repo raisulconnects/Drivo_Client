@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useSession } from "@/lib/auth-client";
 
 // Form er initial state — ekhane shob field define kora hoise
 const initialForm = {
@@ -19,18 +20,34 @@ export default function AddCarPage() {
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
 
+  // Logged-in user er session — Better Auth theke directly paisi
+  const { data: session } = useSession();
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // TODO: API call add korbe backend ready hole — currently just logs & resets
+  // Backend e POST request pathano — car add korar jonno
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
 
-      console.log("Car data to submit:", form);
+      const res = await fetch("http://localhost:2531/cars/add-car", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          seats: Number(form.seats),
+          price: Number(form.price),
+          addedBy: session?.user?.id,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message);
 
       toast.success("Car added successfully!");
       setForm(initialForm);
