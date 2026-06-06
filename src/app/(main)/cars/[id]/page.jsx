@@ -52,10 +52,9 @@ export default async function CarDetailsPage({ params }) {
 
             <h1 className="text-4xl font-bold md:text-5xl">{car.name}</h1>
 
-            <p className="mt-4 text-lg text-gray-400">
-              A premium rental choice built for comfort, performance, and smooth
-              travel experience.
-            </p>
+              <p className="mt-4 text-lg leading-relaxed text-gray-400">
+                {car.description}
+              </p>
 
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
               <div className="rounded-2xl border border-white/10 bg-[#111111] p-4">
@@ -86,15 +85,14 @@ export default async function CarDetailsPage({ params }) {
               </div>
             </div>
 
-            <div className="mt-8 rounded-2xl border border-white/10 bg-[#111111] p-6">
-              <h2 className="text-xl font-semibold text-white">Description</h2>
-              <p className="mt-3 text-sm leading-7 text-gray-400">
-                This {car.name} is a well-maintained {car.type.toLowerCase()}{" "}
-                ideal for city drives, business travel, and weekend trips. It
-                offers a smooth driving experience, modern styling, comfortable
-                seating, and dependable performance for every type of journey.
-              </p>
-            </div>
+            {car.description && (
+              <div className="mt-8 rounded-2xl border border-white/10 bg-[#111111] p-6">
+                <h2 className="text-xl font-semibold text-white">Description</h2>
+                <p className="mt-3 text-sm leading-7 text-gray-400">
+                  {car.description}
+                </p>
+              </div>
+            )}
 
             <div className="mt-8 flex flex-wrap gap-4">
               <button className="rounded-xl bg-lime-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-lime-300">

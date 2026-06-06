@@ -11,6 +11,8 @@ const cars = [
     seats: 4,
     price: 120,
     status: "Available",
+    description:
+      "A powerful sports coupe with a twin-turbo inline-six engine, delivering 473 horsepower and a thrilling driving experience. Perfect for enthusiasts who crave performance.",
   },
   {
     id: "2",
@@ -22,6 +24,8 @@ const cars = [
     seats: 5,
     price: 95,
     status: "Available",
+    description:
+      "An all-electric sedan with minimalist design, impressive range, and autopilot capabilities. Ideal for eco-conscious drivers who don't want to compromise on technology.",
   },
   {
     id: "3",
@@ -33,6 +37,8 @@ const cars = [
     seats: 7,
     price: 110,
     status: "Available",
+    description:
+      "A rugged full-size SUV with off-road capability and spacious 7-seater interior. Built for families who love adventure and need reliability on any terrain.",
   },
   {
     id: "4",
@@ -44,6 +50,8 @@ const cars = [
     seats: 5,
     price: 105,
     status: "Unavailable",
+    description:
+      "A refined luxury sedan with a plush interior, smooth ride, and advanced safety features. Great for business professionals and executive travel.",
   },
   {
     id: "5",
@@ -55,6 +63,8 @@ const cars = [
     seats: 7,
     price: 140,
     status: "Available",
+    description:
+      "A premium luxury SUV combining opulent comfort with powerful performance. Features a stunning interior, advanced infotainment, and commanding road presence.",
   },
   {
     id: "6",
@@ -66,6 +76,8 @@ const cars = [
     seats: 5,
     price: 75,
     status: "Available",
+    description:
+      "A reliable and fuel-efficient sedan, perfect for daily commutes and city driving. Known for its durability, low maintenance, and comfortable cabin.",
   },
   {
     id: "7",
@@ -77,6 +89,8 @@ const cars = [
     seats: 4,
     price: 130,
     status: "Available",
+    description:
+      "An iconic American muscle car with a roaring V8 engine and bold styling. Built for those who want raw power, head-turning looks, and an unforgettable drive.",
   },
   {
     id: "8",
@@ -88,6 +102,8 @@ const cars = [
     seats: 7,
     price: 90,
     status: "Unavailable",
+    description:
+      "A versatile compact SUV offering ample cargo space, comfortable seating for seven, and excellent fuel economy. Ideal for weekend getaways and family trips.",
   },
 ];
 

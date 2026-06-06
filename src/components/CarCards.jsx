@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default function CarCard({ car }) {
-  const { id, image, name, type, location, seats, price, status } = car;
+  const { id, image, name, type, location, seats, price, status, description } = car;
 
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#111111] transition hover:-translate-y-1 hover:border-lime-400/30">
@@ -20,6 +20,10 @@ export default function CarCard({ car }) {
           </div>
           <p className="text-lg font-bold text-lime-400">${price}/day</p>
         </div>
+
+        <p className="line-clamp-2 text-sm leading-relaxed text-gray-400">
+          {description}
+        </p>
 
         <div className="flex items-center justify-between text-sm text-gray-400">
           <span>{location}</span>

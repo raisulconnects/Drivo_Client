@@ -11,6 +11,7 @@ const initialForm = {
   seats: "",
   price: "",
   image: "",
+  description: "",
   status: "Available",
 };
 
@@ -180,6 +181,22 @@ export default function AddCarPage() {
                 />
               </div>
             )}
+
+            {/* Description */}
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-300">
+                Description
+              </label>
+              <textarea
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                placeholder="Describe your car — condition, features, driving experience..."
+                rows={4}
+                required
+                className="w-full resize-none rounded-xl border border-white/10 bg-[#0b0b0b] px-4 py-3 text-sm text-white outline-none transition placeholder:text-gray-500 focus:border-lime-400"
+              />
+            </div>
 
             {/* Status */}
             <div>
