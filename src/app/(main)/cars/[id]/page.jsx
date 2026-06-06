@@ -1,11 +1,21 @@
 import Link from "next/link";
-import cars from "@/data/cars";
 
 export default async function CarDetailsPage({ params }) {
   const { id } = await params;
 
-  //  apdpotto mock data, later we do actual api call to fetch car details by id
-  const car = cars.find((item) => item.id === id);
+  // Backend theke specific car fetch korchi ID diye
+  let car = null;
+  try {
+    const res = await fetch(`http://localhost:2531/cars/get-car/${id}`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      car = data.car;
+    }
+  } catch (error) {
+    console.error("Failed to fetch car:", error);
+  }
 
   if (!car) {
     return (
@@ -51,10 +61,6 @@ export default async function CarDetailsPage({ params }) {
             </div>
 
             <h1 className="text-4xl font-bold md:text-5xl">{car.name}</h1>
-
-              <p className="mt-4 text-lg leading-relaxed text-gray-400">
-                {car.description}
-              </p>
 
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
               <div className="rounded-2xl border border-white/10 bg-[#111111] p-4">

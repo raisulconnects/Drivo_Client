@@ -1,15 +1,37 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CarCards from "@/components/CarCards";
-import cars from "@/data/cars";
 
 export default function ExploreCarsPage() {
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [selectedType, setSelectedType] = useState("All");
 
-  const carTypes = ["All", ...new Set(cars.map((car) => car.type))];
+  // Backend theke sob car fetch korchi mount er time e
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const res = await fetch("http://localhost:2531/cars/get-cars");
+        const data = await res.json();
+        if (res.ok) setCars(data.cars);
+      } catch (error) {
+        console.error("Failed to fetch cars:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCars();
+  }, []);
 
+  // Car type gulor list dynamically generate korchi fetched data theke
+  const carTypes = useMemo(
+    () => ["All", ...new Set(cars.map((car) => car.type))],
+    [cars]
+  );
+
+  // Search + filter logic — client side e kaj korche
   const filteredCars = useMemo(() => {
     return cars.filter((car) => {
       const matchesSearch = car.name
@@ -20,7 +42,7 @@ export default function ExploreCarsPage() {
 
       return matchesSearch && matchesType;
     });
-  }, [searchText, selectedType]);
+  }, [searchText, selectedType, cars]);
 
   return (
     <section className="min-h-screen bg-[#0b0b0b] py-16 text-white md:py-24">
@@ -70,7 +92,11 @@ export default function ExploreCarsPage() {
           </div>
         </div>
 
-        {filteredCars.length > 0 ? (
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-lime-400 border-t-transparent" />
+          </div>
+        ) : filteredCars.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {filteredCars.map((car) => (
               <CarCards key={car.id} car={car} />
