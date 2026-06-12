@@ -1,7 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import CarCards from "@/components/CarCards";
+
+// Available car types — hardcoded kore dilam cause eita fixed
+const CAR_TYPES = ["All", "Sports", "Electric", "SUV", "Sedan", "Luxury SUV"];
 
 export default function ExploreCarsPage() {
   const [cars, setCars] = useState([]);
@@ -9,11 +12,18 @@ export default function ExploreCarsPage() {
   const [searchText, setSearchText] = useState("");
   const [selectedType, setSelectedType] = useState("All");
 
-  // Backend theke sob car fetch korchi mount er time e
+  // Backend theke car fetch korchi — search/type change hole abar fetch korchi
   useEffect(() => {
     const fetchCars = async () => {
+      setLoading(true);
       try {
-        const res = await fetch("http://localhost:2531/cars/get-cars");
+        const params = new URLSearchParams();
+        if (searchText) params.set("search", searchText);
+        if (selectedType !== "All") params.set("type", selectedType);
+
+        const res = await fetch(
+          `http://localhost:2531/cars/get-cars?${params.toString()}`
+        );
         const data = await res.json();
         if (res.ok) setCars(data.cars);
       } catch (error) {
@@ -23,26 +33,7 @@ export default function ExploreCarsPage() {
       }
     };
     fetchCars();
-  }, []);
-
-  // Car type gulor list dynamically generate korchi fetched data theke
-  const carTypes = useMemo(
-    () => ["All", ...new Set(cars.map((car) => car.type))],
-    [cars]
-  );
-
-  // Search + filter logic — client side e kaj korche
-  const filteredCars = useMemo(() => {
-    return cars.filter((car) => {
-      const matchesSearch = car.name
-        .toLowerCase()
-        .includes(searchText.toLowerCase());
-
-      const matchesType = selectedType === "All" || car.type === selectedType;
-
-      return matchesSearch && matchesType;
-    });
-  }, [searchText, selectedType, cars]);
+  }, [searchText, selectedType]);
 
   return (
     <section className="min-h-screen bg-[#0b0b0b] py-16 text-white md:py-24">
@@ -83,7 +74,7 @@ export default function ExploreCarsPage() {
               onChange={(e) => setSelectedType(e.target.value)}
               className="w-full rounded-xl border border-white/10 bg-[#0b0b0b] px-4 py-3 text-sm text-white outline-none transition focus:border-lime-400"
             >
-              {carTypes.map((type) => (
+              {CAR_TYPES.map((type) => (
                 <option key={type} value={type}>
                   {type}
                 </option>
@@ -96,9 +87,9 @@ export default function ExploreCarsPage() {
           <div className="flex items-center justify-center py-20">
             <div className="h-10 w-10 animate-spin rounded-full border-4 border-lime-400 border-t-transparent" />
           </div>
-        ) : filteredCars.length > 0 ? (
+        ) : cars.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {filteredCars.map((car) => (
+            {cars.map((car) => (
               <CarCards key={car.id} car={car} />
             ))}
           </div>
