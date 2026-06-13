@@ -61,8 +61,8 @@ export default function RegisterPage() {
     }
 
     if (data) {
-      toast.success("Registration successful!");
-      router.push("/");
+      toast.success("Registration successful! Please log in.");
+      router.push("/login");
     }
   };
 
@@ -163,6 +163,7 @@ export default function RegisterPage() {
 
         <button
           type="button"
+          onClick={() => authClient.signIn.social({ provider: "google" })}
           className="w-full rounded-xl border border-white/10 bg-transparent px-5 py-3 text-sm font-medium text-white transition hover:border-white/20 hover:bg-white/5"
         >
           Continue with Google

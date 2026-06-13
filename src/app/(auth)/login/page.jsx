@@ -103,8 +103,9 @@ export default function LoginPage() {
           <div className="h-px flex-1 bg-white/10" />
         </div>
 
-        <button
+          <button
           type="button"
+          onClick={() => authClient.signIn.social({ provider: "google" })}
           className="w-full rounded-xl border border-white/10 bg-transparent px-5 py-3 text-sm font-medium text-white transition hover:border-white/20 hover:bg-white/5"
         >
           Continue with Google
