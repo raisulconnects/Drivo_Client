@@ -62,8 +62,8 @@ export default function RegisterPage() {
     }
 
     if (data) {
-      toast.success("Registration successful! Please log in.");
-      router.push("/login");
+      toast.success("Registration successful!");
+      router.push("/");
     }
   };
 
