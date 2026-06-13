@@ -22,7 +22,7 @@ export default function ExploreCarsPage() {
         if (selectedType !== "All") params.set("type", selectedType);
 
         const res = await fetch(
-          `http://localhost:2531/cars/get-cars?${params.toString()}`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}cars/get-cars?${params.toString()}`
         );
         const data = await res.json();
         if (res.ok) setCars(data.cars);

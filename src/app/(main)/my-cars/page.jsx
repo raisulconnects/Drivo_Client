@@ -43,7 +43,7 @@ export default function MyCarsPage() {
       setLoading(true);
       try {
         const res = await fetch(
-          `http://localhost:2531/cars/get-cars?addedBy=${session.user.id}`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}cars/get-cars?addedBy=${session.user.id}`
         );
         const data = await res.json();
         if (res.ok) setCars(data.cars);
@@ -81,7 +81,7 @@ export default function MyCarsPage() {
       const token = tokenData?.token;
 
       const res = await fetch(
-        `http://localhost:2531/cars/update-car/${editingCar.id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}cars/update-car/${editingCar.id}`,
         {
           method: "PUT",
           headers: {
@@ -125,7 +125,7 @@ export default function MyCarsPage() {
       const token = tokenData?.token;
 
       const res = await fetch(
-        `http://localhost:2531/cars/delete-car/${deletingCarId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}cars/delete-car/${deletingCarId}`,
         {
           method: "DELETE",
           headers: {

@@ -23,7 +23,7 @@ export default function CarDetailsPage() {
   useEffect(() => {
     const fetchCar = async () => {
       try {
-        const res = await fetch(`http://localhost:2531/cars/get-car/${id}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}cars/get-car/${id}`);
         const data = await res.json();
         if (res.ok) setCar(data.car);
       } catch (error) {
@@ -47,7 +47,7 @@ export default function CarDetailsPage() {
     try {
       const { data: tokenData } = await authClient.token();
 
-      const res = await fetch("http://localhost:2531/bookings/add-booking", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}bookings/add-booking`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

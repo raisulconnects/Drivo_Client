@@ -12,7 +12,7 @@ export default function AvailableCarsSection() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const res = await fetch("http://localhost:2531/cars/get-cars");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}cars/get-cars`);
         const data = await res.json();
         if (res.ok) setCars(data.cars);
       } catch (error) {

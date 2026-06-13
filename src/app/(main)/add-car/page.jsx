@@ -37,7 +37,7 @@ export default function AddCarPage() {
       const { data: tokenData } = await authClient.token();
       const token = tokenData?.token;
 
-      const res = await fetch("http://localhost:2531/cars/add-car", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}cars/add-car`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

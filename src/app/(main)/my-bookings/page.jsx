@@ -21,7 +21,7 @@ export default function MyBookingsPage() {
       setLoading(true);
       try {
         const res = await fetch(
-          `http://localhost:2531/bookings/get-my-bookings?userId=${session.user.id}`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}bookings/get-my-bookings?userId=${session.user.id}`
         );
         const data = await res.json();
         if (res.ok) setBookings(data.bookings);
