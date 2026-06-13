@@ -167,7 +167,13 @@ export default function CarDetailsPage() {
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <button
-                  onClick={() => setShowBookingModal(true)}
+                  onClick={() => {
+                    if (!session?.user?.id) {
+                      toast.error("Please log in to book a car");
+                      return;
+                    }
+                    setShowBookingModal(true);
+                  }}
                   className="rounded-xl bg-lime-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-lime-300"
                 >
                   Book Now
