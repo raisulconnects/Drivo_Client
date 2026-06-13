@@ -6,5 +6,7 @@ const client = createAuthClient({
   plugins: [jwtClient()],
 });
 
+// console.log("[auth-client] Base URL:", client.$baseURL);
+
 export const { signIn, signUp, useSession, getToken } = client;
 export const authClient = client;

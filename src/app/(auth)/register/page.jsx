@@ -46,6 +46,7 @@ export default function RegisterPage() {
     }
 
     setLoading(true);
+    // console.log("[register] Attempting registration for:", user.email);
 
     const { data, error } = await authClient.signUp.email({
       email: user.email,

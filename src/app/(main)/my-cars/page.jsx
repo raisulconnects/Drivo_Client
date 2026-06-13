@@ -79,6 +79,7 @@ export default function MyCarsPage() {
     try {
       const { data: tokenData } = await authClient.token();
       const token = tokenData?.token;
+      // console.log("[update-car] Token:", token?.slice(0, 20) + "...");
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}cars/update-car/${editingCar.id}`,
@@ -123,6 +124,7 @@ export default function MyCarsPage() {
     try {
       const { data: tokenData } = await authClient.token();
       const token = tokenData?.token;
+      // console.log("[delete-car] Token:", token?.slice(0, 20) + "...");
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}cars/delete-car/${deletingCarId}`,

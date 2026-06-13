@@ -18,7 +18,10 @@ export default async function proxy(request) {
       return NextResponse.next();
     }
 
+    // console.log("[proxy] Session found for:", pathname, session?.user?.email);
+
     if (!session) {
+      // console.log("[proxy] No session, redirecting to /login from:", pathname);
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);

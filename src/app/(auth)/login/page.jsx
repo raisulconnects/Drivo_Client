@@ -23,6 +23,7 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
+    // console.log("[login] Attempting login for:", user.email);
 
     const { data, error } = await authClient.signIn.email({
       email: user.email,
