@@ -21,6 +21,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const { data, isPending } = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -91,17 +92,16 @@ export default function Navbar() {
                 onClick={() => setDropdownOpen((prev) => !prev)}
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#111111] px-3 py-2 text-sm text-white transition hover:border-white/20"
               >
-                {data.user.image ? (
-                  <img
-                    src={data.user.image}
-                    alt={data.user.name}
-                    className="h-7 w-7 rounded-full object-cover"
-                  />
-                ) : (
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-lime-400 text-xs font-bold text-black">
-                    {initials}
-                  </span>
-                )}
+                <img
+                  src={
+                    data.user.image && !avatarError
+                      ? data.user.image
+                      : "/avatar_icon.webp"
+                  }
+                  alt={data.user.name}
+                  onError={() => setAvatarError(true)}
+                  className="h-7 w-7 rounded-full object-cover"
+                />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
