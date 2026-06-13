@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const privateRoutes = ["/add-car", "/my-bookings", "/my-cars"];
 
@@ -10,7 +11,7 @@ export default async function proxy(request) {
     let session;
     try {
       session = await auth.api.getSession({
-        headers: request.headers,
+        headers: await headers(),
       });
     } catch (error) {
       console.error("Proxy session check failed:", error);
