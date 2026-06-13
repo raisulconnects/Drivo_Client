@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "@/lib/auth-client";
+import { useSession, authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -45,9 +45,14 @@ export default function CarDetailsPage() {
 
     setSubmitting(true);
     try {
+      const { data: tokenData } = await authClient.token();
+
       const res = await fetch("http://localhost:2531/bookings/add-booking", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${tokenData?.token}`,
+        },
         body: JSON.stringify({
           carId: id,
           userId: session.user.id,

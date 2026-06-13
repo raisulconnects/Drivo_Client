@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useSession } from "@/lib/auth-client";
+import { useSession, authClient } from "@/lib/auth-client";
 
 // Form er initial state — ekhane shob field define kora hoise
 const initialForm = {
@@ -34,9 +34,15 @@ export default function AddCarPage() {
     try {
       setLoading(true);
 
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token;
+
       const res = await fetch("http://localhost:2531/cars/add-car", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
         body: JSON.stringify({
           ...form,
           seats: Number(form.seats),

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "@/lib/auth-client";
+import { useSession, authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
@@ -77,11 +77,17 @@ export default function MyCarsPage() {
 
     setSaving(true);
     try {
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token;
+
       const res = await fetch(
         `http://localhost:2531/cars/update-car/${editingCar.id}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
           body: JSON.stringify(editForm),
         }
       );
@@ -115,9 +121,17 @@ export default function MyCarsPage() {
 
     setDeleting(true);
     try {
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token;
+
       const res = await fetch(
         `http://localhost:2531/cars/delete-car/${deletingCarId}`,
-        { method: "DELETE" }
+        {
+          method: "DELETE",
+          headers: {
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        }
       );
 
       const data = await res.json();

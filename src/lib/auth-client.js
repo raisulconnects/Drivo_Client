@@ -6,5 +6,5 @@ const client = createAuthClient({
   plugins: [jwtClient()],
 });
 
-export const { signIn, signUp, useSession } = client;
+export const { signIn, signUp, useSession, getToken } = client;
 export const authClient = client;
