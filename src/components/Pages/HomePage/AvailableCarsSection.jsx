@@ -1,8 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import CarCard from "@/components/CarCards";
 import Link from "next/link";
-import cars from "@/data/cars";
 
 export default function AvailableCarsSection() {
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Backend theke available cars fetch korchi
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const res = await fetch("http://localhost:2531/cars/get-cars");
+        const data = await res.json();
+        if (res.ok) setCars(data.cars);
+      } catch (error) {
+        console.error("Failed to fetch cars:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCars();
+  }, []);
+
   return (
     <section className="bg-[#0b0b0b] py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-5">
@@ -28,11 +49,17 @@ export default function AvailableCarsSection() {
           </Link>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {cars.map((car, i) => (
-            <CarCard key={car.id} car={car} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-lime-400 border-t-transparent" />
+          </div>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {cars.map((car) => (
+              <CarCard key={car.id} car={car} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
